@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace desafio.Domain.Entities
 {
-    public class EstadoPedido
+    public class EstadoDelPedido
     {
         public int Id { get; set; }
         public string Descripcion { get; set; }

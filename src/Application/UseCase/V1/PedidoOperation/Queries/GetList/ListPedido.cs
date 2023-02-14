@@ -25,11 +25,33 @@ namespace desafio.Application.UseCase.V1.PedidoOperation.Queries.GetList
 
         public async Task<Response<List<PedidoDto>>> Handle(ListPedido request, CancellationToken cancellationToken)
         {
-            var result = await _query.GetAllAsync<PedidoDto>(nameof(Pedido));
+            var result = await _query.GetAllAsync<Pedidos>(nameof(Pedidos));
+            List<PedidoDto> resultPedidos = new List<PedidoDto>();
+
+            foreach (var item in result)
+            {
+                var sqlString = $"select * from dbo.EstadoDelpedido where id = '{item.EstadoDelPedido}'";
+                var resultadoEstadoDelPedido = await _query.FirstOrDefaultQueryAsync<EstadoDelPedido>(sqlString);
+
+                
+                PedidoDto pedidodto = new PedidoDto()
+                {
+
+                    Id= item.Id,
+                    NumeroDePedido = item.NumeroDePedido,
+                    CicloDelPedido = item.CicloDelPedido,
+                    CodigoDeContratoInterno = item.CodigoDeContratoInterno,
+                    EstadoDelPedido = new EstadoDelPedido() { Id = resultadoEstadoDelPedido is null? 1 : resultadoEstadoDelPedido.Id , 
+                                                              Descripcion = resultadoEstadoDelPedido is null? "Vacio" : resultadoEstadoDelPedido.Descripcion}
+
+
+                };
+                resultPedidos.Add(pedidodto);
+            }
 
             return new Response<List<PedidoDto>>
             {
-                Content = result.ToList(),
+                Content = resultPedidos,
                 StatusCode = System.Net.HttpStatusCode.OK
             };
         }

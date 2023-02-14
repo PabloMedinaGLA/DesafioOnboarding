@@ -3,4 +3,4 @@ using System;
 
 namespace desafio.Domain.Dtos;
 
-public record struct PedidoDto(int Id, int NumeroPedido, string CicloDelPedido, Int64 CodigoDeContratoInterno, DateTime Cuando, EstadoPedido EstadoPedido) { }
+public record struct PedidoDto(Guid Id, int? NumeroDePedido, string CicloDelPedido, long? CodigoDeContratoInterno, EstadoDelPedido EstadoDelPedido,string CuentaCorriente, DateTime Cuando ) { }

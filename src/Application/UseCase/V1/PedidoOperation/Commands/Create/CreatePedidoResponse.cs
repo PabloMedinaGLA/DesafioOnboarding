@@ -1,5 +1,7 @@
-﻿namespace desafio.Application.UseCase.V1.PersonOperation.Commands.Create
+﻿using System;
+
+namespace desafio.Application.UseCase.V1.PedidoOperation.Commands.Create
 {
-    public record struct CreatePedidoResponse(int PedidoId, string Message) { }
+    public record struct CreatePedidoResponse(Guid PedidoId, string Message) { }
 }
 
