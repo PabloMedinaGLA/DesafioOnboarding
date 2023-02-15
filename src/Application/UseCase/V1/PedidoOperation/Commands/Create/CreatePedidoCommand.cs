@@ -1,6 +1,6 @@
 ﻿using Andreani.ARQ.Core.Interface;
 using Andreani.ARQ.Pipeline.Clases;
-using desafio.Application.UseCase.V1.PersonOperation.Commands.Create;
+using desafio.Application.UseCase.V1.PedidoOperation.Commands.Create;
 using desafio.Domain.Entities;
 using desafio.Domain.Enums;
 using MediatR;

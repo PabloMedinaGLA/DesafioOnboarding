@@ -42,7 +42,10 @@ namespace desafio.Application.UseCase.V1.PedidoOperation.Queries.GetList
                     CicloDelPedido = item.CicloDelPedido,
                     CodigoDeContratoInterno = item.CodigoDeContratoInterno,
                     EstadoDelPedido = new EstadoDelPedido() { Id = resultadoEstadoDelPedido is null? 1 : resultadoEstadoDelPedido.Id , 
-                                                              Descripcion = resultadoEstadoDelPedido is null? "Vacio" : resultadoEstadoDelPedido.Descripcion}
+                                                              Descripcion = resultadoEstadoDelPedido is null? "Vacio" : resultadoEstadoDelPedido.Descripcion},
+                    CuentaCorriente = item.CuentaCorriente,
+                    Cuando = item.Cuando.ToString("mm/dd/yyyy")
+                    
 
 
                 };

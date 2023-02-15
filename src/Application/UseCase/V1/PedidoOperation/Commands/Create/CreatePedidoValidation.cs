@@ -19,7 +19,17 @@ namespace desafio.Application.UseCase.V1.PedidoOperation.Commands.Create
             RuleFor(x => x.CuentaCorriente)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .WithMessage("Valor Ingresado Invalido");
+                .WithMessage("Valor Ingresado Invalido")
+                .Must((x, list, context) =>
+                {
+                    if (x.CuentaCorriente.ToString() != "")
+                    {
+                        context.MessageFormatter.AppendArgument("CuentaCorriente", x.CuentaCorriente);
+                        return Int32.TryParse(x.CuentaCorriente.ToString(), out int number);
+                    }
+                    return true;
+                })
+                .WithMessage("Cuenta corriente debe ser un nro.");
         }
     }
 }
