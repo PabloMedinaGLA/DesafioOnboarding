@@ -1,5 +1,8 @@
-﻿using Andreani.ARQ.Core.Interface;
+﻿using Andreani.ARQ.AMQStreams.Interface;
+using Andreani.ARQ.Core.Interface;
 using Andreani.ARQ.Pipeline.Clases;
+using Andreani.OnboardingVideo.Events.Record;
+using Andreani.Scheme.Onboarding;
 using desafio.Application.UseCase.V1.PedidoOperation.Commands.Create;
 using desafio.Domain.Entities;
 using desafio.Domain.Enums;
@@ -24,10 +27,13 @@ namespace desafio.Application.UseCase.V1.PedidoOperation.Commands.Create
         private readonly ITransactionalRepository _repository;
         private readonly ILogger<CreatePedidoCommandHandler> _logger;
 
-        public CreatePedidoCommandHandler(ITransactionalRepository repository, ILogger<CreatePedidoCommandHandler> logger)
+        private Andreani.ARQ.AMQStreams.Interface.IPublisher _publisher;
+
+        public CreatePedidoCommandHandler(ITransactionalRepository repository, ILogger<CreatePedidoCommandHandler> logger, Andreani.ARQ.AMQStreams.Interface.IPublisher publisher)
         {
             _repository = repository;
             _logger = logger;
+            _publisher = publisher;
         }
 
         public async Task<Response<CreatePedidoResponse>> Handle(CreatePedidoCommand request, CancellationToken cancellationToken)
@@ -43,10 +49,23 @@ namespace desafio.Application.UseCase.V1.PedidoOperation.Commands.Create
                 EstadoDelPedido = (int?)EstadoPedidoEnum.CREADO,
                 CuentaCorriente = request.CuentaCorriente,
                 Cuando = DateTime.Now
-        };
+            };
             _repository.Insert(entity);
             await _repository.SaveChangeAsync();
             _logger.LogDebug("El pedido se cargo correctamente");
+
+            
+            await _publisher.To<Pedido>(new Pedido()
+            {
+                id = entity.Id.ToString(),
+                numeroDePedido = 0,
+                cicloDelPedido = entity.CicloDelPedido,
+                codigoDeContratoInterno = (long)entity.CodigoDeContratoInterno,
+                estadoDelPedido = entity.EstadoDelPedido.ToString(),
+                cuentaCorriente = Convert.ToInt64(entity.CuentaCorriente),
+                cuando = entity.Cuando.ToString()
+
+            }, Guid.NewGuid().ToString());
 
             return new Response<CreatePedidoResponse>
             {
@@ -57,6 +76,7 @@ namespace desafio.Application.UseCase.V1.PedidoOperation.Commands.Create
                 },
                 StatusCode = System.Net.HttpStatusCode.Created
             };
+
         }
 
 

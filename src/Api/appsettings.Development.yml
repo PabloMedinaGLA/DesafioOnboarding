@@ -1,4 +1,15 @@
+ApplicationName: desafio
 DataAccessRegistry:
   ReadOnlyConnection: "Data Source=DBONBOARDDESA.andreani.com.ar;Initial Catalog=Onboarding;Persist Security Info=True;User ID=User_Onboarding;Password=0jp9dQALTMkOMVC0Wss2"
   TransactionalConnection: "Data Source=DBONBOARDDESA.andreani.com.ar;Initial Catalog=Onboarding;Persist Security Info=True;User ID=User_Onboarding;Password=0jp9dQALTMkOMVC0Wss2"
   ProviderName: System.Data.SqlClient
+
+AMQStreams:
+  BootstrapServer: "SSL://cluster-kafka-bootstrap-amq-streams-test.apps.ocptest.andreani.com.ar:443"
+  SchemaUrl: "http://apicurioregistry.apps.ocptest.andreani.com.ar/apis/ccompat/v6"
+  Protocol: "Ssl"
+  SslCertificateLocation: "./kafka.pem"
+  EnableSslCertificateVerification: false
+  AutoOffsetReset: "Earliest"
+  AutoRegisterSchemas: true
+  maxRetry: 3

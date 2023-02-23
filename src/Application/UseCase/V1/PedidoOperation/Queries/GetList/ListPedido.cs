@@ -44,7 +44,7 @@ namespace desafio.Application.UseCase.V1.PedidoOperation.Queries.GetList
                     EstadoDelPedido = new EstadoDelPedido() { Id = resultadoEstadoDelPedido is null? 1 : resultadoEstadoDelPedido.Id , 
                                                               Descripcion = resultadoEstadoDelPedido is null? "Vacio" : resultadoEstadoDelPedido.Descripcion},
                     CuentaCorriente = item.CuentaCorriente,
-                    Cuando = item.Cuando.ToString("mm/dd/yyyy")
+                    Cuando = item.Cuando.ToString("MM/dd/yyyy")
                     
 
 

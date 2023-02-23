@@ -2,6 +2,8 @@
 using Andreani.ARQ.WebHost.Controllers;
 using desafio.Application.UseCase.V1.PedidoOperation.Commands.Create;
 using desafio.Application.UseCase.V1.PedidoOperation.Queries.GetList;
+using desafio.Application.UseCase.V1.PedidoOperation.Queries.GetElement;
+
 using desafio.Domain.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -37,5 +39,11 @@ public class PedidoController : ApiControllerBase
     [ProducesResponseType(typeof(List<PedidoDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(List<Notify>), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Get() => Result(await Mediator.Send(new ListPedido()));
+
+    [HttpGet("{id}")]
+    [ProducesResponseType(typeof(List<PedidoDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<Notify>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(List<Notify>), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Get(string id) => Result(await Mediator.Send(new PedidoIdentifier(id)));
 }
 
