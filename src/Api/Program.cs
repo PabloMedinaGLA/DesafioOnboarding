@@ -3,6 +3,7 @@ using Andreani.ARQ.WebHost.Extension;
 using Andreani.Scheme.Onboarding;
 using desafio.Application;
 using desafio.Infrastructure;
+using desafio.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +18,9 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services
     .AddKafka(builder.Configuration)
-    .ToProducer<Pedido>("PedidoCreado")
+    .CreateOrUpdateTopic(6,"PedidoCreadoMP")
+    .ToProducer<Pedido>("PedidoCreadoMP")
+    .ToConsumer<Subscriber, Pedido>("PedidoAsignadoMP")
     .Build();
 
 var app = builder.Build();
