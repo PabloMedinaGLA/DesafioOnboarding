@@ -13,3 +13,5 @@ AMQStreams:
   AutoOffsetReset: "Earliest"
   AutoRegisterSchemas: true
   maxRetry: 3
+
+localhostAPI: "https://localhost:3000/"
