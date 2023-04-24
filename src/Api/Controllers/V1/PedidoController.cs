@@ -16,7 +16,7 @@ namespace desafio.Controllers.V1;
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
-public class PedidoController : ApiControllerBase
+public class pedidoController : ApiControllerBase
 {
     /// <summary>
     /// Creación de Nuevo Pedido
