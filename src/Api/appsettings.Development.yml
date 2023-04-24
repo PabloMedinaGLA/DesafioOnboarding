@@ -14,4 +14,4 @@ AMQStreams:
   AutoRegisterSchemas: true
   maxRetry: 3
 
-localhostAPI: "https://localhost:3000/"
+localhostAPI: "http://localhost:3000" 
