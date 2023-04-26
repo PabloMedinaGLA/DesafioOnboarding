@@ -7,20 +7,18 @@ using desafio.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
-
+using System.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-
-builder.Services.AddCors(options =>
+builder.Services.AddCors(b =>
 {
-    options.AddPolicy("NuevaPolitica",
-    app =>
+    b.AddDefaultPolicy(options =>
     {
-        app.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+        options.WithOrigins("*").WithHeaders("*").WithMethods("*");
     });
 });
+
 
 builder.Host.ConfigureAndreaniWebHost(args);
 builder.Services.ConfigureAndreaniServices();
@@ -35,8 +33,7 @@ builder.Services
     .Build();
 
 var app = builder.Build();
-
+app.UseCors();
 app.ConfigureAndreani(app.Environment, app.Services.GetRequiredService<IApiVersionDescriptionProvider>());
-app.UseCors("NuevaPolitica");
 
 app.Run();
